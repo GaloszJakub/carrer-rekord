@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
   return {
-    base: '/carrer-rekord/',
+    base: process.env.VERCEL ? '/' : '/carrer-rekord/',
     server: {
       port: 3000,
       host: '0.0.0.0',
