@@ -15,6 +15,7 @@ export interface JobOffer {
     requirements?: string[];
     niceToHave?: string[];
     benefits?: string[];
+    applyUrl?: string;
 }
 
 interface JobOfferCardProps {
@@ -25,6 +26,14 @@ interface JobOfferCardProps {
 }
 
 export const JobOfferCard: React.FC<JobOfferCardProps> = ({ offer, isActive, onToggle, onApply }) => {
+    const handleApplyClick = () => {
+        if (offer.applyUrl) {
+            window.open(offer.applyUrl, '_blank', 'noopener,noreferrer');
+        } else {
+            onApply();
+        }
+    };
+
     return (
         <GlassCard className={`group transition-all duration-300 ${isActive ? 'border-lime-400 shadow-[0_0_15px_rgba(132,204,22,0.1)]' : 'hover:border-lime-400/50'}`} noHover>
             <div
@@ -138,7 +147,7 @@ export const JobOfferCard: React.FC<JobOfferCardProps> = ({ offer, isActive, onT
 
                                 <div className="pt-4">
                                     <button
-                                        onClick={onApply}
+                                        onClick={handleApplyClick}
                                         className="w-full md:w-auto px-8 py-3 bg-lime-400 hover:bg-lime-300 text-emerald-950 font-bold rounded-lg transition-all duration-300 shadow-[0_0_15px_rgba(132,204,22,0.3)] flex justify-center items-center gap-2"
                                     >
                                         Aplikuj teraz <ArrowRight size={20} />

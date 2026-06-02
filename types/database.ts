@@ -12,6 +12,7 @@ export interface JobOffer {
     requirements?: string[];
     nice_to_have?: string[];
     benefits?: string[];
+    apply_url?: string;
 }
 
 

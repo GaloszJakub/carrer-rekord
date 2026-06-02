@@ -64,7 +64,8 @@ const CareerPage = () => {
           responsibilities: o.responsibilities || [],
           requirements: o.requirements || [],
           niceToHave: o.nice_to_have || [],
-          benefits: o.benefits || []
+          benefits: o.benefits || [],
+          applyUrl: o.apply_url || ''
         })));
       }
 

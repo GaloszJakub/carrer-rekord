@@ -51,6 +51,7 @@ def main():
             "tags": offer["tags"],
             "contract": offer["contract"],
             "salary": offer["salary"],
+            "apply_url": offer["apply_url"],
             "scraped_at": now_iso,
             "is_active": True,
         }

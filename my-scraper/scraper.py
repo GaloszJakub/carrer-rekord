@@ -23,6 +23,7 @@ class JobOffer(TypedDict):
     tags: list[str]
     contract: str
     salary: str
+    apply_url: str
 
 
 def _scrape_offer_details(url: str) -> dict[str, Any]:
@@ -167,6 +168,14 @@ def _scrape_offer_details(url: str) -> dict[str, Any]:
         elif "zlecenie" in all_text:
             contract = "Umowa zlecenie"
 
+        # 6. Apply URL (link do wysłania CV)
+        apply_url = ""
+        for a in soup.find_all("a", href=True):
+            href = a["href"].strip()
+            if "hrrekruter" in href or "aplikuj" in a.get_text().lower():
+                apply_url = href
+                break
+
         return {
             "description": description,
             "responsibilities": responsibilities,
@@ -176,7 +185,8 @@ def _scrape_offer_details(url: str) -> dict[str, Any]:
             "tech_stack": tech_stack,
             "tags": tags,
             "contract": contract,
-            "salary": "Do uzgodnienia"
+            "salary": "Do uzgodnienia",
+            "apply_url": apply_url
         }
     except Exception:
         return {
@@ -188,7 +198,8 @@ def _scrape_offer_details(url: str) -> dict[str, Any]:
             "tech_stack": ["IT"],
             "tags": ["Rekrutacja", "Kariera"],
             "contract": "Do uzgodnienia",
-            "salary": "Do uzgodnienia"
+            "salary": "Do uzgodnienia",
+            "apply_url": ""
         }
 
 
@@ -234,6 +245,7 @@ def scrape_job_offers() -> list[JobOffer]:
                 "tags": details["tags"],
                 "contract": details["contract"],
                 "salary": details["salary"],
+                "apply_url": details["apply_url"],
             }
         )
 

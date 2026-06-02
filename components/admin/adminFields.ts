@@ -43,6 +43,7 @@ export const JOBS_FIELDS: FieldConfig[] = [
     { key: 'requirements', label: 'Wymagania', type: 'array' },
     { key: 'nice_to_have', label: 'Mile widziane', type: 'array' },
     { key: 'benefits', label: 'Co oferujemy', type: 'array' },
+    { key: 'apply_url', label: 'Link aplikowania', type: 'text' },
 ];
 
 export const FAQS_FIELDS: FieldConfig[] = [
