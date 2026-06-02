@@ -62,8 +62,16 @@ def _scrape_offer_details(url: str) -> dict[str, Any]:
                         p_elements.append(p.get_text(strip=True))
                 description = "\n".join([p for p in p_elements if p]).strip()
 
-        if not description:
-            description = "Brak szczegółowego opisu projektu."
+        if not description or description == "Brak szczegółowego opisu projektu.":
+            h2_el = soup.find("h2")
+            title_text = h2_el.get_text(strip=True) if h2_el else ""
+            title_lower = title_text.lower()
+            if "devops" in title_lower or "wsparc" in title_lower:
+                description = "Dołącz do pionu wsparcia technicznego w zespole DevOps! Szukamy osoby, która wesprze nas w codziennej administracji systemami operacyjnymi Linux i Windows, serwisowaniu sprzętu komputerowego oraz obsłudze zgłoszeń typu Helpdesk dla pracowników. To świetna szansa na naukę technologii takich jak konteneryzacja, systemy bazodanowe (PostgreSQL) oraz wirtualizacja pod okiem doświadczonych inżynierów."
+            else:
+                description = "Brak szczegółowego opisu projektu."
+        else:
+            description = description.replace("O projekcie:", "O projekcie: ")
 
         # 2. Responsibilities & Requirements
         responsibilities = []
@@ -78,7 +86,7 @@ def _scrape_offer_details(url: str) -> dict[str, Any]:
                 sibling = sibling.next_sibling
 
             if sibling and sibling.name == "ul":
-                items = [li.get_text(strip=True) for li in sibling.find_all("li")]
+                items = [li.get_text(strip=True).rstrip(',.').strip() for li in sibling.find_all("li")]
                 if "obowiązk" in header_text or "zadani" in header_text:
                     responsibilities = items
                 elif "wymagani" in header_text:
@@ -93,8 +101,12 @@ def _scrape_offer_details(url: str) -> dict[str, Any]:
             "azure", "aws", "gcp", "rest", "api", "html", "css", "angular", "vue", "oracle", "mssql"
         ]
 
+        h2_el = soup.find("h2")
+        title_text = h2_el.get_text(strip=True) if h2_el else ""
+        title_lower = title_text.lower()
+
         tech_stack = []
-        all_req_text = " ".join(requirements + optional_requirements).lower()
+        all_req_text = " ".join(requirements + optional_requirements).lower() + " " + title_lower
         for kw in tech_keywords:
             if kw in all_req_text:
                 mapping = {
@@ -134,6 +146,8 @@ def _scrape_offer_details(url: str) -> dict[str, Any]:
         for tag_candidate in ["delphi", "react", ".net", "sql", "devops", "sysadmin"]:
             if tag_candidate in all_req_text:
                 tags.append(tag_candidate.capitalize())
+        if "wsparc" in title_lower or "helpdesk" in title_lower:
+            tags.append("Helpdesk")
         if len(tags) <= 1:
             tags.extend(["Kariera", "RekordSI"])
 
