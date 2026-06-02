@@ -83,6 +83,12 @@ def scrape_and_sync(
                 "title": offer["title"],
                 "url": offer["url"],
                 "location": offer["location"],
+                "description": offer["description"],
+                "responsibilities": offer["responsibilities"],
+                "tech_stack": offer["tech_stack"],
+                "tags": offer["tags"],
+                "contract": offer["contract"],
+                "salary": offer["salary"],
                 "scraped_at": now_iso,
                 "is_active": True,
             }
