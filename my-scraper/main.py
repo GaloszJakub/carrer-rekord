@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import os
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from typing import Any
 
 from fastapi import FastAPI, Header, HTTPException
@@ -75,7 +75,7 @@ def scrape_and_sync(
 
     try:
         offers: list[JobOffer] = scrape_job_offers()
-        now_iso = datetime.now(UTC).isoformat()
+        now_iso = datetime.now(timezone.utc).isoformat()
         current_urls = [offer["url"] for offer in offers]
 
         payload = [
@@ -85,6 +85,9 @@ def scrape_and_sync(
                 "location": offer["location"],
                 "description": offer["description"],
                 "responsibilities": offer["responsibilities"],
+                "requirements": offer["requirements"],
+                "nice_to_have": offer["nice_to_have"],
+                "benefits": offer["benefits"],
                 "tech_stack": offer["tech_stack"],
                 "tags": offer["tags"],
                 "contract": offer["contract"],

@@ -40,6 +40,9 @@ export const JOBS_FIELDS: FieldConfig[] = [
     { key: 'tags', label: 'Tagi', type: 'array-tags' },
     { key: 'tech_stack', label: 'Tech Stack', type: 'array-tags' },
     { key: 'responsibilities', label: 'Obowiązki', type: 'array' },
+    { key: 'requirements', label: 'Wymagania', type: 'array' },
+    { key: 'nice_to_have', label: 'Mile widziane', type: 'array' },
+    { key: 'benefits', label: 'Co oferujemy', type: 'array' },
 ];
 
 export const FAQS_FIELDS: FieldConfig[] = [

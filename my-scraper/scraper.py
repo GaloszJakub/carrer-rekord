@@ -16,6 +16,9 @@ class JobOffer(TypedDict):
     location: str
     description: str
     responsibilities: list[str]
+    requirements: list[str]
+    nice_to_have: list[str]
+    benefits: list[str]
     tech_stack: list[str]
     tags: list[str]
     contract: str
@@ -77,6 +80,7 @@ def _scrape_offer_details(url: str) -> dict[str, Any]:
         responsibilities = []
         requirements = []
         optional_requirements = []
+        benefits = []
 
         for h3 in soup.find_all("h3"):
             header_text = h3.get_text(strip=True).lower()
@@ -86,13 +90,15 @@ def _scrape_offer_details(url: str) -> dict[str, Any]:
                 sibling = sibling.next_sibling
 
             if sibling and sibling.name == "ul":
-                items = [li.get_text(strip=True).rstrip(',.').strip() for li in sibling.find_all("li")]
+                items = [li.get_text(" ", strip=True).replace(" :", ":").replace("  ", " ").rstrip(',.').strip() for li in sibling.find_all("li")]
                 if "obowiązk" in header_text or "zadani" in header_text:
                     responsibilities = items
                 elif "wymagani" in header_text:
                     requirements = items
                 elif "mile widziane" in header_text:
                     optional_requirements = items
+                elif "oferuje" in header_text or "co oferujemy" in header_text or "to oferujemy" in header_text:
+                    benefits = items
 
         # 3. Tech Stack
         tech_keywords = [
@@ -164,6 +170,9 @@ def _scrape_offer_details(url: str) -> dict[str, Any]:
         return {
             "description": description,
             "responsibilities": responsibilities,
+            "requirements": requirements,
+            "nice_to_have": optional_requirements,
+            "benefits": benefits,
             "tech_stack": tech_stack,
             "tags": tags,
             "contract": contract,
@@ -173,6 +182,9 @@ def _scrape_offer_details(url: str) -> dict[str, Any]:
         return {
             "description": "Brak opisu.",
             "responsibilities": [],
+            "requirements": [],
+            "nice_to_have": [],
+            "benefits": [],
             "tech_stack": ["IT"],
             "tags": ["Rekrutacja", "Kariera"],
             "contract": "Do uzgodnienia",
@@ -215,6 +227,9 @@ def scrape_job_offers() -> list[JobOffer]:
                 "location": location,
                 "description": details["description"],
                 "responsibilities": details["responsibilities"],
+                "requirements": details["requirements"],
+                "nice_to_have": details["nice_to_have"],
+                "benefits": details["benefits"],
                 "tech_stack": details["tech_stack"],
                 "tags": details["tags"],
                 "contract": details["contract"],

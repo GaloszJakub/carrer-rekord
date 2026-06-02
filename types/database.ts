@@ -9,7 +9,11 @@ export interface JobOffer {
     description: string;
     tech_stack: string[];
     responsibilities: string[];
+    requirements?: string[];
+    nice_to_have?: string[];
+    benefits?: string[];
 }
+
 
 export interface Faq {
     id: string;

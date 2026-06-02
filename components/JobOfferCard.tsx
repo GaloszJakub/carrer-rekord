@@ -12,6 +12,9 @@ export interface JobOffer {
     description: string;
     techStack: string[];
     responsibilities: string[];
+    requirements?: string[];
+    niceToHave?: string[];
+    benefits?: string[];
 }
 
 interface JobOfferCardProps {
@@ -84,6 +87,54 @@ export const JobOfferCard: React.FC<JobOfferCardProps> = ({ offer, isActive, onT
                                         ))}
                                     </ul>
                                 </div>
+
+                                {offer.requirements && offer.requirements.length > 0 && (
+                                    <div>
+                                        <h4 className="text-lime-400 font-hand text-xl font-bold mb-3 flex items-center gap-2">
+                                            <CheckCircle2 size={18} /> Nasze wymagania
+                                        </h4>
+                                        <ul className="space-y-2">
+                                            {offer.requirements.map((req, idx) => (
+                                                <li key={idx} className="flex items-start text-emerald-200/90 text-sm">
+                                                    <span className="w-1.5 h-1.5 bg-lime-500 rounded-full mt-2 mr-3 shrink-0" />
+                                                    {req}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+
+                                {offer.niceToHave && offer.niceToHave.length > 0 && (
+                                    <div>
+                                        <h4 className="text-lime-400 font-hand text-xl font-bold mb-3 flex items-center gap-2">
+                                            <CheckCircle2 size={18} /> Mile widziane
+                                        </h4>
+                                        <ul className="space-y-2">
+                                            {offer.niceToHave.map((nice, idx) => (
+                                                <li key={idx} className="flex items-start text-emerald-200/90 text-sm">
+                                                    <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full mt-2 mr-3 shrink-0" />
+                                                    {nice}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+
+                                {offer.benefits && offer.benefits.length > 0 && (
+                                    <div>
+                                        <h4 className="text-lime-400 font-hand text-xl font-bold mb-3 flex items-center gap-2">
+                                            <CheckCircle2 size={18} /> Oferujemy
+                                        </h4>
+                                        <ul className="space-y-2">
+                                            {offer.benefits.map((benefit, idx) => (
+                                                <li key={idx} className="flex items-start text-emerald-200/90 text-sm">
+                                                    <span className="w-1.5 h-1.5 bg-lime-400 rounded-full mt-2 mr-3 shrink-0" />
+                                                    {benefit}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
 
                                 <div className="pt-4">
                                     <button

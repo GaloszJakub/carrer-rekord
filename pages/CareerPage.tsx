@@ -61,7 +61,10 @@ const CareerPage = () => {
           contract: o.contract || '',
           description: o.description || '',
           techStack: o.tech_stack || [],
-          responsibilities: o.responsibilities || []
+          responsibilities: o.responsibilities || [],
+          requirements: o.requirements || [],
+          niceToHave: o.nice_to_have || [],
+          benefits: o.benefits || []
         })));
       }
 

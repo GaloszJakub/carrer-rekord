@@ -19,6 +19,15 @@ def main():
             print("Responsibilities:")
             for r in o['responsibilities']:
                 print(f"  - {r}")
+            print("Requirements:")
+            for req in o['requirements']:
+                print(f"  - {req}")
+            print("Nice to have:")
+            for nice in o['nice_to_have']:
+                print(f"  - {nice}")
+            print("Benefits:")
+            for b in o['benefits']:
+                print(f"  - {b}")
     except Exception as e:
         print("Error during scraping:", e)
 
