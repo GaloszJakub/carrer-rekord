@@ -37,6 +37,19 @@ def _get_supabase() -> Client:
     )
 
 
+@app.get("/api/health")
+def health_check() -> dict[str, Any]:
+    return {
+        "status": "ok",
+        "env_vars": {
+            "SUPABASE_URL_present": bool(os.environ.get("SUPABASE_URL")),
+            "SUPABASE_SERVICE_KEY_present": bool(os.environ.get("SUPABASE_SERVICE_KEY")),
+            "SCRAPE_SECRET_present": bool(os.environ.get("SCRAPE_SECRET")),
+            "CRON_SECRET_present": bool(os.environ.get("CRON_SECRET")),
+        }
+    }
+
+
 @app.api_route("/api/scrape", methods=["GET", "POST"])
 def scrape_and_sync(
     x_scrape_key: str | None = Header(default=None, alias="X-Scrape-Key"),
