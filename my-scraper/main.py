@@ -99,7 +99,7 @@ def scrape_and_sync(
 
             supabase.table("job_offers").update({"is_active": False}).not_.in_("url", current_urls).execute()
         else:
-            supabase.table("job_offers").update({"is_active": False}).neq("id", "").execute()
+            supabase.table("job_offers").update({"is_active": False}).eq("is_active", True).execute()
 
         return {"synced": len(offers), "offers": offers}
     except HTTPException:
