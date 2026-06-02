@@ -79,7 +79,7 @@ const Navbar = () => {
           className="flex-shrink-0 pointer-events-auto"
         >
           <div className="flex items-center gap-2 cursor-pointer group">
-
+            <img src="/si.png" alt="RekordIT Logo" className="h-6 w-auto object-contain brightness-0 invert" />
             <span className="font-sans font-bold text-xl tracking-tight text-white">
               Rekord<span className="text-lime-400">IT</span>
             </span>
@@ -188,7 +188,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             {/* Brand Column */}
             <div className="md:col-span-5 lg:col-span-6 space-y-6">
               <div className="flex items-center gap-3 mb-6">
-
+                <img src="/si.png" alt="RekordIT Logo" className="h-8 w-auto object-contain brightness-0 invert" />
                 <span className="font-sans font-bold text-2xl tracking-tight text-white">
                   Rekord<span className="text-lime-400">IT</span>
                 </span>
