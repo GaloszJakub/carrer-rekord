@@ -76,7 +76,7 @@ Przykładowa odpowiedź:
 
 ## Deployment na Vercel
 
-1. Wejdź do katalogu `my-scraper`.
-2. Dodaj env vars w projekcie Vercel.
-3. Deploy (`vercel` lub przez Git integration).
-4. Endpoint cron wywoła `POST /api/scrape` codziennie o `08:00 UTC` zgodnie z `vercel.json`.
+1. Zaimportuj projekt w Vercel i wybierz katalog `my-scraper` jako **Root Directory** w ustawieniach projektu.
+2. Dodaj wymagane zmienne środowiskowe w panelu Vercel (`SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `SCRAPE_SECRET`).
+3. Wykonaj wdrożenie (np. przez integrację z Git lub za pomocą Vercel CLI).
+4. Vercel automatycznie skonfiguruje zadanie Cron na podstawie pliku `vercel.json`. Będzie ono wysyłać żądanie `GET /api/scrape` codziennie o godzinie `08:00 UTC`. Bezpieczeństwo jest zapewnione przez automatyczną weryfikację nagłówka `Authorization: Bearer <CRON_SECRET>` wstrzykiwanego przez Vercel.

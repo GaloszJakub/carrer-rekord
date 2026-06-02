@@ -37,14 +37,27 @@ def _get_supabase() -> Client:
     )
 
 
-@app.post("/api/scrape")
-def scrape_and_sync(x_scrape_key: str | None = Header(default=None, alias="X-Scrape-Key")) -> dict[str, Any]:
-    try:
-        expected_secret = _required_env("SCRAPE_SECRET")
-    except RuntimeError as exc:
-        raise HTTPException(status_code=500, detail=str(exc)) from exc
+@app.api_route("/api/scrape", methods=["GET", "POST"])
+def scrape_and_sync(
+    x_scrape_key: str | None = Header(default=None, alias="X-Scrape-Key"),
+    authorization: str | None = Header(default=None, alias="Authorization"),
+) -> dict[str, Any]:
+    scrape_secret = os.environ.get("SCRAPE_SECRET")
+    cron_secret = os.environ.get("CRON_SECRET")
 
-    if not x_scrape_key or x_scrape_key != expected_secret:
+    if not scrape_secret and not cron_secret:
+        raise HTTPException(
+            status_code=500,
+            detail="Missing environment variables: SCRAPE_SECRET or CRON_SECRET must be set",
+        )
+
+    is_authorized = False
+    if scrape_secret and x_scrape_key == scrape_secret:
+        is_authorized = True
+    elif cron_secret and authorization == f"Bearer {cron_secret}":
+        is_authorized = True
+
+    if not is_authorized:
         raise HTTPException(status_code=401, detail="Unauthorized")
 
     try:
